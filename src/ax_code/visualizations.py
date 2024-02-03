@@ -2,6 +2,8 @@
 # CAN'T plot optimization trace as it needs a single objective
 # Also need to plot Model performance/Objective improvement vs # of iterations
 
+# https://ax.dev/tutorials/visualizations.html
+
 """ 
 Cross validation plot
 
@@ -71,4 +73,10 @@ Tile plot
 
     e.g. render(interact_fitted(model, rel=False))
 
+
+###############################################################################
+    
+Define function(s) for my own visualizations now:
+
 """
+
