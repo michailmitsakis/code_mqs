@@ -1,5 +1,5 @@
 """
-On thresholds: 
+- On thresholds: 
 
         # Optional float representing the smallest objective value (respectively largest if minimize=True) that is considered valuable in the context of multi-objective optimization. 
         # In BoTorch and in the literature, this is also known as an element of the reference point vector that defines the hyper-volume of the Pareto front.
@@ -33,12 +33,12 @@ From Balandat:
         # yA>= -350 + 0.1*(-350) = -350 - 35 = -385
 
 
-On SEM:
+- On SEM:
         # Result of the evaluation should generally be a mapping of the format: {metric_name -> (mean, SEM)}. 
         # It can also return only the mean as a float, in which case Ax will treat SEM as unknown 
         # and use a model that can INFER it.
 
-On parallelism (Tradeoff between parallelism and total number of trials):
+- On parallelism (Tradeoff between parallelism and total number of trials):
 
 In Bayesian Optimization (any optimization, really), we have the choice between performing evaluations of 
 our function in a sequential fashion (i.e. only generate a new candidate point to evaluate after the 
