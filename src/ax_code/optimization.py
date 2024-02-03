@@ -105,7 +105,42 @@ Alternatively:
     )
     print(frontier)
 
+Noise in the Pareto front:
+
+    There are a few potential contributors to the large error bars:
+
+    - Measurement noise in the physical experiment: This noise directly propagates into uncertainty in the
+    Pareto front estimation. Noisy observations lead to broader confidence intervals
+    for the predicted Pareto frontier.
+
+    - Model uncertainty: The Bayesian models used, like Gaussian processes, have their own uncertainty in
+    predicting outcomes between observed points. This also contributes to broader confidence intervals on
+    the estimated Pareto front.
+
+    - Data sparsity: With limited observed data points, there is greater model prediction uncertainty across
+    the objective space. More observed trials reduce uncertainty.
+
+    - Optimization algorithm: Some algorithms like NEHVI are designed to quantify uncertainty in the Pareto front.
+    But even with noiseless data, there would still be model uncertainty.
+
+    The noise is likely a combination of physical measurement errors and model uncertainty. 
+    More observed trials and using methods like NEHVI to quantify uncertainty helps, but some noise is
+    intrinsic when estimating the full Pareto front.
 
 
+On the hypervolume and the difference with get_trace:
+    
+    - If I want a more accurate representation of the Pareto front, I should use use_model_predictions=FALSE when calculating the hypervolume i..e what 'get_trace' does. The use of model predictions (use_model_predictions=True) can be faster but might not reflect the true Pareto front accurately, especially if the model's predictions deviate significantly from the actual data.
+    - For example here the hypervolume value DOESN'T CHANGE AT ALL, according to the model predictions, which is clearly not true. Again, there is probbaly a noise related or model fitting issue here.
+
+On hypervolume improvement:
+
+    When running trial_indices=[10] and [11], the improved upon hypervolume is apparently ZERO, but then is shows a positive value for [12]. This kind of tracks with the message output when being suggested 3 new trials for every batch, for the first 2 out of the 3: 
+    "ax.modelbridge.torch: The observations are identical to the last set of observations used to fit the model. Skipping model fitting." 
+    This message is missing from the third trial, which is why it is the first one to actually improve upon the hypervolume, after the initial 10 trials. However, this only occurs for use_model_predictions=False and not True, which is weird. 
+    
+    In any case, **if I see a value of 0, it means that the current trial doesn't contribute to improving the hypervolume compared to the PREVIOUS state**.
+
+    During some sets of iterations, it seems that the optimization process did not find better solutions, as the hypervolume stays the same.
 
 """
