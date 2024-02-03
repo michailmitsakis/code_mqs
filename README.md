@@ -8,4 +8,5 @@ The default state-of-the-art acqusition function used is the qNEHVI function, wh
 
 The package also contains different kinds of visualizations of the results.
 
+- Updated Ax to latest version, careful with new dependencies (original version still in other folder).
 - **Also check possible Claude/ChatGPT output for this README.**
