@@ -85,11 +85,25 @@ On variance:
     and sensitivity of each objective, and comparing these elements between objectives can help us understand 
     their relative behaviors in response to parameter changes.
 
+On Pareto front:
 
+    The posterior pareto front is not necessarily the same as the collection of observed optimal pareto points
+    found by the optimizer during the trials. The optimizer is trying to find the (single or few) best points
+    on the pareto front, but the pareto front itself is a set of points, not a single or a few points.
 
+Alternatively:
 
+    Get Pareto frontier ignoring all modelling and just using the data =
+    equivalent to getting Pareto optimal parameters from model predictions from above, no need.
 
+    from ax.plot.pareto_utils import get_observed_pareto_frontiers
 
+    objectives = ax_client.experiment.optimization_config.objective.objectives
+    frontier = get_observed_pareto_frontiers(
+        experiment=ax_client.experiment,
+        data=ax_client.experiment.fetch_data()
+    )
+    print(frontier)
 
 
 
