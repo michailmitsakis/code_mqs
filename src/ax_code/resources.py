@@ -1,4 +1,7 @@
 """
+Currently updated Ax version: 0.52.0
+(original version still in other folder)
+
 #### Resources:
 - https://ax.dev/docs/core.html#trial-vs-batched-trial
 - https://ax.dev/docs/trial-evaluation.html
