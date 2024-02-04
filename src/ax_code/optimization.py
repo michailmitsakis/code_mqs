@@ -1,13 +1,33 @@
 """
+
+MORE INFO ON THIS 'ERROR' HERE - https://github.com/facebook/Ax/issues/1930:
+
+"It's hard to say without a better understanding of exactly what code you're running, but the error is coming
+from here --> https://github.com/facebook/Ax/blob/cc89030ddefa0f27369148f61d90cb62f5ce56f8/ax/modelbridge/torch.py#L643)
+
+Ax/ax/modelbridge/torch.py 
+--> line 643 in def(fit)
+
+if self.model is not None and observations == self._last_observations:
+    logger.info(
+        "The observations are identical to the last set of observations "
+        "used to fit the model. Skipping model fitting."
+
+It can happen if no new observations have been added (and won't happen if new observations have
+been added but they are identical to past observations). Is it possible that all of your trials in a batch
+have been marked failed, which would result in no new data is being passed to _fit? That would be consistent
+with this message being less likely with high parallelism. 
+(Note also that this is an info log and optimizationcan proceed.)"
+
 On next suggested trials:
 
     Every run suggests three new trials (trial 10, 11, and 12), and for the first two, I'm getting the message: 
     "The observations are identical to the last set of observations used to fit the model. Skipping model fitting." 
 
-    This means that the model has determined that the data observed for these trials is very similar to the existing 
-    data used to train the model. Therefore, there's little to gain from refitting the model with nearly identical data.
-    For the third trial (trial 12), it doesn't display the message, indicating that the data for this trial might be 
-    more informative or different enough to warrant retraining the model.
+    This means that the model has determined that the data observed for these trials is very similar to the 
+    existing data used to train the model. Therefore, there's little to gain from refitting the model with nearly 
+    identical data. For the third trial (trial 12), it doesn't display the message, indicating that the data for
+    this trial might be more informative or different enough to warrant retraining the model.
 
     Basically the first 2 recommendations are quite similar to each other, when looking at the proposed parameters, 
     so the model doesn't need to be retrained. The third one is different enough to warrant retraining the model.

@@ -80,3 +80,100 @@ Define function(s) for my own visualizations now:
 
 """
 
+import matplotlib.pyplot as plt
+
+def plot_pareto(data, visualization_type='batch'):
+    if visualization_type == 'batch':
+        plot_by_batch(data)
+    elif visualization_type == 'trial':
+        plot_by_trial(data)
+    else:
+        raise ValueError(f"Invalid visualization_type: {visualization_type}")
+
+def plot_by_batch(data):
+    batch_1 = data[:10]
+    batch_2 = data[10:13]
+    batch_3 = data[13:]
+
+    plt.figure(figsize=(10, 6))
+    plt.scatter(*zip(*batch_1), label='Batch 1', marker='o', color='b')
+    plt.scatter(*zip(*batch_2), label='Batch 2', marker='s', color='g')
+    plt.scatter(*zip(*batch_3), label='Batch 3', marker='^', color='r')
+
+    plt.xlabel('Overpotential')
+    plt.ylabel('Overpotential Slope')
+    plt.title('Observed Pareto Front')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+def plot_by_trial(data):
+    trials = list(range(len(data)))
+    colormap = plt.cm.get_cmap('coolwarm', len(trials))
+
+    plt.figure(figsize=(10, 6))
+    for i, (overpotential, slope) in enumerate(data):
+        color = colormap(i)
+        plt.scatter(overpotential, slope, label=f'Trial {i}', color=color, marker='o', s=50)
+
+    plt.xlabel('Overpotential')
+    plt.ylabel('Overpotential Slope')
+    plt.title('Observed Pareto Front (Color-coded by Trial)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+######################
+
+import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
+
+def plot_pareto_objective(data, visualization_type='value'):
+    if visualization_type == 'value':
+        plot_by_value(data)
+    elif visualization_type == 'slope':
+        plot_by_slope(data)
+    else:
+        raise ValueError(f"Invalid visualization_type: {visualization_type}")
+
+def plot_by_value(data):
+    trials = list(range(len(data)))
+    overpotential, slope = zip(*data)
+
+    cmap = plt.get_cmap('viridis')
+    norm = Normalize(vmin=min(overpotential + slope), vmax=max(overpotential + slope))
+
+    plt.figure(figsize=(10, 6))
+    sc = plt.scatter(overpotential, slope, c=overpotential, cmap=cmap, norm=norm, marker='o', s=50)
+
+    cbar = plt.colorbar(sc, format='%.1f')
+    cbar.set_label('Color Scale (Overpotential)')
+
+    plt.xlabel('Overpotential')
+    plt.ylabel('Overpotential Slope')
+    plt.title('Observed Pareto Front (Color-coded by Value)')
+
+    plt.grid(True)
+    plt.show()
+
+def plot_by_slope(data):
+    trials = list(range(len(data)))
+    overpotential, slope = zip(*data)
+
+    cmap = plt.get_cmap('viridis')
+    norm = Normalize(vmin=-0.05, vmax=+0.1)
+
+    plt.figure(figsize=(10, 6))
+    sc = plt.scatter(overpotential, slope, c=slope, cmap=cmap, norm=norm, marker='o', s=50)
+
+    cbar = plt.colorbar(sc, format='%.4f')
+    cbar.set_label('Color Scale (Overpotential Slope)')
+
+    plt.xlabel('Overpotential')
+    plt.ylabel('Overpotential Slope')
+    plt.title('Observed Pareto Front (Color-coded by Overpotential Slope)')
+
+    plt.grid(True)
+    plt.show()
+
