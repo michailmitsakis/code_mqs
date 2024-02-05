@@ -91,7 +91,8 @@ def plot_pareto(data, visualization_type='batch'):
         raise ValueError(f"Invalid visualization_type: {visualization_type}")
 
 def plot_by_batch(data):
-    # This split has to be manually adjusted based on the size and number of batches!
+
+    """This split has to be manually adjusted based on the size and number of batches!"""
     batch_1 = data[:10]
     batch_2 = data[10:13]
     batch_3 = data[13:]
@@ -143,7 +144,8 @@ def plot_by_value(data):
     overpotential, slope = zip(*data)
 
     cmap = plt.get_cmap('viridis')
-    # Normalizing values v_min and v_max of the color map - might have to be set manually depending on the objectives
+    """Normalizing values v_min and v_max of the color map - 
+    might have to be set manually depending on the objectives"""
     norm = Normalize(vmin=min(overpotential + slope), vmax=max(overpotential + slope))
 
     plt.figure(figsize=(10, 6))
@@ -164,7 +166,8 @@ def plot_by_slope(data):
     overpotential, slope = zip(*data)
 
     cmap = plt.get_cmap('viridis')
-    # Normalizing values v_min and v_max of the color map - might have to be set manually depending on the objectives
+    """Normalizing values v_min and v_max of the color map - 
+    might have to be set manually depending on the objectives"""
     norm = Normalize(vmin=-0.05, vmax=+0.1)
 
     plt.figure(figsize=(10, 6))
