@@ -28,7 +28,6 @@ Cross validation plot
     cv_results_by_trial = cross_validate_by_trial(model, trial = 15)
     render(interact_cross_validation(cv_results_by_trial))
 
-
 Contour plot
 
     Shows the response surface.
@@ -73,12 +72,11 @@ Tile plot
 
     e.g. render(interact_fitted(model, rel=False))
 
-
 ###############################################################################
-    
-Define function(s) for my own visualizations now:
 
 """
+
+# Define function(s) for my own visualizations now:
 
 import matplotlib.pyplot as plt
 
@@ -144,8 +142,12 @@ def plot_by_value(data):
     overpotential, slope = zip(*data)
 
     cmap = plt.get_cmap('viridis')
-    """Normalizing values v_min and v_max of the color map - 
-    might have to be set manually depending on the objectives"""
+    
+    """
+    Normalizing values v_min and v_max of the color map - 
+    might have to be set manually depending on the objectives
+    """
+
     norm = Normalize(vmin=min(overpotential + slope), vmax=max(overpotential + slope))
 
     plt.figure(figsize=(10, 6))
@@ -166,8 +168,11 @@ def plot_by_slope(data):
     overpotential, slope = zip(*data)
 
     cmap = plt.get_cmap('viridis')
-    """Normalizing values v_min and v_max of the color map - 
-    might have to be set manually depending on the objectives"""
+    
+    """
+    Normalizing values v_min and v_max of the color map - 
+    might have to be set manually depending on the objectives
+    """
     norm = Normalize(vmin=-0.05, vmax=+0.1)
 
     plt.figure(figsize=(10, 6))
