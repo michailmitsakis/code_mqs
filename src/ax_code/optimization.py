@@ -1,4 +1,7 @@
 """
+"The observations are identical to the last set of observations "
+"used to fit the model. Skipping model fitting."
+
 MORE INFO ON THIS 'ERROR' HERE - https://github.com/facebook/Ax/issues/1930:
 
 "It's hard to say without a better understanding of exactly what code you're running, but the error is coming
@@ -17,6 +20,36 @@ been added but they are identical to past observations). Is it possible that all
 have been marked failed, which would result in no new data is being passed to _fit? That would be consistent
 with this message being less likely with high parallelism. 
 (Note also that this is an info log and optimizationcan proceed.)"
+
+More on model instantiation:
+
+ax_client.fit_model()
+print('model:', ax_client.generation_strategy.model)
+
+# This should already be called at every get_next_trial() call.
+
+# From the documentation:
+# Model update is normally tied to the GenerationStrategy.gen() call,
+# which is called from get_next_trial(). In order to ensure that predictions
+# can be performed without the need to call get_next_trial(), we update the
+# model with all attached data. Note that this method keeps track of previously
+# seen trials and will update the model if there is newly attached data.
+
+##################################
+
+Generation strategy comments:
+
+        # Quasi-random Sobol sequence along with my initial data
+        # GenerationStep(
+            # model=Models.SOBOL, 
+            # num_trials=5,  # How many trials to produce during generation step
+            # min_trials_observed=3,  # How many trials to be completed before next model
+            # max_parallelism=5  # Max parallelism for this step
+        # ),
+        ################
+        # Skips SOBOL sampling step (which is the default first step) and uses the initial data provided
+        # Bayesian optimization step (requires data obtained from previous phase and learns
+        # from all data available at the time of each new candidate generation call)
 
 On next suggested trials:
 
