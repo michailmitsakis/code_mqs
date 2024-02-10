@@ -75,8 +75,35 @@ Tile plot
 ###############################################################################
 
 """
+   
+# Define function for automatic data conversion from the Ax dataframe to a list, for visualization purposes.
 
-# Define function(s) for my own visualizations now:
+def data_convert(data_df):
+    # Drop the 'sem' column containing NaNs
+    data_df = data_df.drop(columns=['sem'])
+
+    # Convert the DataFrame to a list of lists
+    data_list = []
+
+    for trial in data_df['trial_index'].unique():
+        trial_data = data_df[data_df['trial_index'] == trial]
+        
+        # Extract data for 'overpotential' and 'overpotential_slope'
+        overpotential_data = trial_data.loc[trial_data['metric_name'] == 'overpotential', 'mean'].tolist()[0]
+        slope_data = trial_data.loc[trial_data['metric_name'] == 'overpotential_slope', 'mean'].tolist()[0]
+        
+        # Combine the data into a list of tuples
+        trial_data_list = [overpotential_data, slope_data]
+        
+        # Extend the main list
+        data_list.append(trial_data_list)
+
+    # Now data_list has the format I want
+    return data_list
+
+######################
+
+# Define function(s) for my own visualizations 
 
 import matplotlib.pyplot as plt
 
@@ -122,7 +149,6 @@ def plot_by_trial(data):
     plt.legend()
     plt.grid(True)
     plt.show()
-
 
 ######################
 
@@ -187,4 +213,3 @@ def plot_by_slope(data):
 
     plt.grid(True)
     plt.show()
-
