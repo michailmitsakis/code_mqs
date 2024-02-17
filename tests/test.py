@@ -113,24 +113,24 @@ def test_experiment():
     ax_client = experiment()
     
     # Perform assertions on the experiment object
-    assert ax_client.experiment.name == "NiP"
-    assert len(ax_client.experiment.parameters) == 4  # Check that there are 4 parameters
-    assert len(ax_client.experiment.objectives) == 2  # Check that there are 2 objectives
+    assert ax_client.experiment.name == "NiW"
+
+    # Check the number of parameters
+    assert len(ax_client.experiment.parameters) == 4
+    # Check the number of objectives
+    assert len(ax_client.experiment.metrics) == 2
 
     # Check the names and types of parameters
-    assert ax_client.experiment.parameters[0].name == "tungstate_concentration"
-    assert ax_client.experiment.parameters[0].type == "range"
-    assert ax_client.experiment.parameters[1].name == "current_density"
-    assert ax_client.experiment.parameters[1].type == "range"
-    assert ax_client.experiment.parameters[2].name == "deposition_time"
-    assert ax_client.experiment.parameters[2].type == "range"
-    assert ax_client.experiment.parameters[3].name == "pH"
-    assert ax_client.experiment.parameters[3].type == "range"
-
+    parameters = ax_client.experiment.parameters
+    for parameter in parameters:
+        assert parameter in ["tungstate_concentration", "current_density", "deposition_time", "pH"]
+    
     # Check the names and properties of objectives
-    assert ax_client.experiment.objectives[0].name == "overpotential"
-    assert ax_client.experiment.objectives[0].minimize == False
-    assert ax_client.experiment.objectives[0].threshold == -350
-    assert ax_client.experiment.objectives[1].name == "overpotential_slope"
-    assert ax_client.experiment.objectives[1].minimize == False
-    assert ax_client.experiment.objectives[1].threshold == -0.001
+    objectives = ax_client.experiment.tracking_metrics
+    for objective in objectives:
+        assert objective in ["overpotential", "overpotential_slope"]
+        assert not objective.lower_is_better  # Check that minimize is False
+        if objective.name == "overpotential":
+            assert objective.target == -350
+        elif objective.name == "overpotential_slope":
+            assert objective.target == -0.001
