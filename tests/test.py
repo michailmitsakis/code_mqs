@@ -1,13 +1,3 @@
-"""
-def add(a, b):
-    return a + b
-
-
-def test_add():
-    assert add(2, 3) == 5
-    assert add('space', 'ship') == 'spaceship'
-    # assert add(2, '3') == 5
-"""
 import numpy as np
 import pandas as pd
 from ax.service.ax_client import AxClient
