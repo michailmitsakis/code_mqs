@@ -4,7 +4,6 @@ from ax.service.ax_client import AxClient
 from ax.service.utils.instantiation import ObjectiveProperties
 from ax.modelbridge.registry import Models
 from ax.modelbridge.generation_strategy import GenerationStrategy, GenerationStep
-import pytest
 
 unique_parameters = ["tungstate_concentration", "current_density", "deposition_time", "pH"] 
 
@@ -116,11 +115,12 @@ def test_experiment():
         assert parameter in ["tungstate_concentration", "current_density", "deposition_time", "pH"]
     
     # Check the names and properties of objectives
-    objectives = ax_client.experiment.tracking_metrics
+    objectives = ax_client.experiment.metrics
     for objective in objectives:
         assert objective in ["overpotential", "overpotential_slope"]
-        assert not objective.lower_is_better  # Check that minimize is False
-        if objective.name == "overpotential":
-            assert objective.target == -350
-        elif objective.name == "overpotential_slope":
-            assert objective.target == -0.001
+        if objective == "overpotential":
+            assert objective.minimize == False
+            assert objective.threshold == -350
+        elif objective == "overpotential_slope":
+            assert objective.minimize == False
+            assert objective.threshold == -0.001
