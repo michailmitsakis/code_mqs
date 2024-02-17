@@ -1,0 +1,14 @@
+[build-system]
+requires = ["ax=0.52.0"]
+
+[project]
+name = "ax_code"
+description = "Bayesian optimization using Ax library for adaptive experimentation."
+version = "0.1.0"
+readme = "README.md"
+authors = [
+    { name = "Michail Mitsakis", email = "mitsakismichail@gmail.com" }
+]
+dependencies = [
+    "see requirements.txt file"
+]
